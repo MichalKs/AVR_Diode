@@ -20,7 +20,7 @@
 #include <string.h>
 
 #include <led.h>
-#include <util/delay.h>
+#include <timers.h>
 
 #define SYSTICK_FREQ 1000 ///< Frequency of the SysTick set at 1kHz.
 #define COMM_BAUD_RATE 115200UL ///< Baud rate for communication with PC
@@ -37,25 +37,24 @@ void softTimerCallback(void);
 #define println(str, args...) (void)0
 #endif
 
-#include <avr/io.h>
-
 /**
  * @brief Main function
  * @return
  */
 int main(void) {
 	
+  TIMER_Init(SYSTICK_FREQ); // Initialize timer
+
+  // Add a soft timer with callback running every 1000ms
+  int8_t timerID = TIMER_AddSoftTimer(1000, softTimerCallback);
+  TIMER_StartSoftTimer(timerID);
+
 	LED_Init(LED0); // Add an LED
 	LED_Init(LED1);
 
 	while (1) {
 
-	  LED_ChangeState(LED0, LED_ON);
-	  LED_ChangeState(LED1, LED_OFF);
-	  _delay_ms(1000);
-	  LED_ChangeState(LED0, LED_OFF);
-	  LED_ChangeState(LED1, LED_ON);
-	  _delay_ms(1000);
+	  TIMER_SoftTimersUpdate(); // run timers
 	}
 }
 
@@ -64,27 +63,7 @@ int main(void) {
  */
 void softTimerCallback(void) {
 
-//  static uint8_t counter;
-//
-//  switch (counter % 3) {
-//
-//  case 0:
-//    LED_ChangeState(LED1, LED_OFF);
-//    LED_ChangeState(LED2, LED_OFF);
-//    break;
-//
-//  case 1:
-//    LED_ChangeState(LED1, LED_ON);
-//    LED_ChangeState(LED2, LED_OFF);
-//    break;
-//
-//  case 2:
-//    LED_ChangeState(LED1, LED_OFF);
-//    LED_ChangeState(LED2, LED_ON);
-//    break;
-//
-//  }
-//
-////  println("Test string sent from STM32F4!!!"); // Print test string
-//	counter++;
+  LED_Toggle(LED1);
+  LED_Toggle(LED0);
+
 }
