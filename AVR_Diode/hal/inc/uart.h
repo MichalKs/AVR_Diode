@@ -19,7 +19,7 @@
 #define UART_H_
 
 #include <inttypes.h>
-
+#include <avr/interrupt.h> // for sei and cli
 /**
  * @defgroup  USART2 USART2
  * @brief     USART2 low level functions
@@ -30,12 +30,14 @@
  * @{
  */
 
-void    UART2_Init(uint32_t baud, void(*rxCb)(uint8_t), uint8_t(*txCb)(uint8_t*));
-void    UART2_TxEnable(void);
+void    UART_Init(uint32_t baud, void(*rxCb)(uint8_t), uint8_t(*txCb)(uint8_t*));
+void    UART_TxEnable(void);
 
 // HAL functions for use in higher level
-#define COMM_HAL_Init     UART2_Init
-#define COMM_HAL_TxEnable UART2_TxEnable
+#define COMM_HAL_Init     UART_Init
+#define COMM_HAL_TxEnable UART_TxEnable
+#define COMM_HAL_IrqEnable  sei()
+#define COMM_HAL_IrqDisable cli()
 
 /**
  * @}

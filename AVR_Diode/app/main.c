@@ -21,6 +21,7 @@
 
 #include <led.h>
 #include <timers.h>
+#include <comm.h>
 
 #define SYSTICK_FREQ 1000 ///< Frequency of the SysTick set at 1kHz.
 #define COMM_BAUD_RATE 115200UL ///< Baud rate for communication with PC
@@ -42,7 +43,9 @@ void softTimerCallback(void);
  * @return
  */
 int main(void) {
-	
+
+  COMM_Init(COMM_BAUD_RATE);
+
   TIMER_Init(SYSTICK_FREQ); // Initialize timer
 
   // Add a soft timer with callback running every 1000ms
@@ -65,5 +68,7 @@ void softTimerCallback(void) {
 
   LED_Toggle(LED1);
   LED_Toggle(LED0);
+
+  COMM_Puts("Hello\n");
 
 }

@@ -18,11 +18,11 @@
 #include <comm.h>
 #include <fifo.h>
 // HAL
-#include <uart2.h>
 #include <stdio.h>
+#include <uart.h>
 
 #ifndef DEBUG
-  #define DEBUG
+//  #define DEBUG
 #endif
 
 #ifdef DEBUG
@@ -89,10 +89,26 @@ void COMM_Init(uint32_t baud) {
  * @param c Char to send.
  */
 void COMM_Putc(uint8_t c) {
+  // disable IRQ so it doesn't screw up FIFO count - leads to errors in transmission
+  COMM_HAL_IrqDisable;
 
   FIFO_Push(&txFifo,c); // Put data in TX buffer
   COMM_HAL_TxEnable();  // Enable low level transmitter
 
+  // enable IRQ again
+  COMM_HAL_IrqEnable;
+}
+/**
+ * @brief Send string to USART
+ * @param s String to send
+ */
+void COMM_Puts(const char* s) {
+
+  while(*s) {
+    COMM_Putc(*s++);
+  }
+  // CR for terminal
+  COMM_Putc('\r');
 }
 /**
  * @brief Get a char from USART2
