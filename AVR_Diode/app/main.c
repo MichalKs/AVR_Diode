@@ -28,7 +28,7 @@
 
 void softTimerCallback(void);
 
-//#define DEBUG
+#define DEBUG
 
 #ifdef DEBUG
 #define print(str, args...) printf("MAIN--> "str"%s",##args,"\r")
@@ -38,13 +38,24 @@ void softTimerCallback(void);
 #define println(str, args...) (void)0
 #endif
 
+int printfWrite(char c, FILE *stream) {
+  COMM_Putc(c);
+  return 0;
+}
+
+FILE mystdout = FDEV_SETUP_STREAM(printfWrite, NULL, _FDEV_SETUP_WRITE);
+
 /**
  * @brief Main function
  * @return
  */
 int main(void) {
 
+  stdout = &mystdout;
+
   COMM_Init(COMM_BAUD_RATE);
+
+  println("Starting program");
 
   TIMER_Init(SYSTICK_FREQ); // Initialize timer
 
@@ -53,7 +64,9 @@ int main(void) {
   TIMER_StartSoftTimer(timerID);
 
 	LED_Init(LED0); // Add an LED
-	LED_Init(LED1);
+	LED_Init(LED1); // Add an LED
+	LED_Init(LED2); // Add nonexising LED for test
+	LED_ChangeState(LED2, LED_ON);
 
 	while (1) {
 
@@ -69,6 +82,6 @@ void softTimerCallback(void) {
   LED_Toggle(LED1);
   LED_Toggle(LED0);
 
-  COMM_Puts("Hello\n");
+  println("Testing printf");
 
 }

@@ -22,7 +22,7 @@
 #include <uart.h>
 
 #ifndef DEBUG
-//  #define DEBUG
+  #define DEBUG
 #endif
 
 #ifdef DEBUG
@@ -43,7 +43,7 @@
  * @{
  */
 
-#define COMM_BUF_LEN     64      ///< COMM buffer lengths
+#define COMM_BUF_LEN     128     ///< COMM buffer lengths
 #define COMM_TERMINATOR '\r'     ///< COMM frame terminator character
 
 static uint8_t rxBuffer[COMM_BUF_LEN]; ///< Buffer for received data.
