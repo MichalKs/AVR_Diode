@@ -39,6 +39,10 @@ void softTimerCallback(void);
 
 #include <avr/io.h>
 
+/**
+ * @brief Main function
+ * @return
+ */
 int main(void) {
 	
 	LED_Init(LED0); // Add an LED
