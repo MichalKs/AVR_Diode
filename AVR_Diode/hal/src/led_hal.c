@@ -23,26 +23,63 @@
  * @{
  */
 
+#ifdef __AVR_ATmega32__
 /**
  * @brief LED GPIO ports
  */
 static volatile uint8_t* ledPort[MAX_LEDS] = {
-    &PORTB,
-    &PORTD};
+    &PORTA,
+    &PORTA,
+    &PORTA,
+    &PORTA
+};
 
 /**
  * @brief LED GPIO data direction
  */
 static volatile uint8_t* ledDir[MAX_LEDS] = {
-    &DDRB,
-    &DDRD};
+    &DDRA,
+    &DDRA,
+    &DDRA,
+    &DDRA
+};
 
 /**
  * @brief LED pin numbers
  */
 static uint8_t ledPin[MAX_LEDS] = {
     1<<0,
-    1<<7};
+    1<<1,
+    1<<2,
+    1<<3,
+};
+#elif defined __AVR_ATmega8__
+/**
+ * @brief LED GPIO ports
+ */
+static volatile uint8_t* ledPort[MAX_LEDS] = {
+    &PORTB,
+    &PORTD
+};
+
+/**
+ * @brief LED GPIO data direction
+ */
+static volatile uint8_t* ledDir[MAX_LEDS] = {
+    &DDRB,
+    &DDRD
+};
+
+/**
+ * @brief LED pin numbers
+ */
+static uint8_t ledPin[MAX_LEDS] = {
+    1<<0,
+    1<<7
+};
+#else
+  #error "Unsupported MCU"
+#endif
 
 /**
  * @brief Add an LED.

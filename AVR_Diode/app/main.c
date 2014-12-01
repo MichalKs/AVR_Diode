@@ -47,35 +47,35 @@ FILE mystdout = FDEV_SETUP_STREAM(printfWrite, NULL, _FDEV_SETUP_WRITE);
 
 #include <avr/io.h>
 
-void alarmSignalInit(void) {
+//void alarmSignalInit(void) {
+//
+//  DDRD |= (1<<3); // output pin
+//  PORTD |= (1<<3); //
+//
+//}
+//
+//void setAlarm(uint8_t val) {
+//
+//  if (val) {
+//    PORTD |= (1<<3);
+//  } else {
+//    PORTD &= ~(1<<3);
+//  }
+//
+//
+//}
 
-  DDRD |= (1<<3); // output pin
-  PORTD |= (1<<3); //
-
-}
-
-void setAlarm(uint8_t val) {
-
-  if (val) {
-    PORTD |= (1<<3);
-  } else {
-    PORTD &= ~(1<<3);
-  }
-
-
-}
-
-void initContactSwitch(void) {
-
-  DDRD &= ~(1<<2); // input pin
-  PORTD |= (1<<2); // pull up resistor
-
-}
-
-uint8_t checkContactSwitch(void) {
-
-  return !(PIND & (1<<2));
-}
+//void initContactSwitch(void) {
+//
+//  DDRD &= ~(1<<2); // input pin
+//  PORTD |= (1<<2); // pull up resistor
+//
+//}
+//
+//uint8_t checkContactSwitch(void) {
+//
+//  return !(PIND & (1<<2));
+//}
 
 uint8_t alarm;
 
@@ -85,8 +85,8 @@ uint8_t alarm;
  */
 int main(void) {
 
-  initContactSwitch();
-  alarmSignalInit();
+//  initContactSwitch();
+//  alarmSignalInit();
 
   stdout = &mystdout;
 
@@ -102,17 +102,17 @@ int main(void) {
 
 	LED_Init(LED0); // Add an LED
 	LED_Init(LED1); // Add an LED
-	LED_Init(LED2); // Add nonexising LED for test
+	LED_Init(LED2); // Add an LED
 	LED_ChangeState(LED2, LED_ON);
 
 	while (1) {
 
-	  alarm = checkContactSwitch();
-	  if (alarm) {
-	    setAlarm(1);
-	  } else {
-	    setAlarm(0);
-	  }
+//	  alarm = checkContactSwitch();
+//	  if (alarm) {
+//	    setAlarm(1);
+//	  } else {
+//	    setAlarm(0);
+//	  }
 
 	  TIMER_SoftTimersUpdate(); // run timers
 	}

@@ -30,8 +30,11 @@
  * @addtogroup LED_HAL
  * @{
  */
-
-#define MAX_LEDS    2 ///< Maximum number of LEDs available in design
+#ifdef __AVR_ATmega32__
+  #define MAX_LEDS    4 ///< Maximum number of LEDs available in design
+#elif defined __AVR_ATmega8__
+  #define MAX_LEDS    2 ///< Maximum number of LEDs available in design
+#endif
 
 void LED_HAL_Init         (uint8_t led);
 void LED_HAL_Toggle       (uint8_t led);
