@@ -53,6 +53,7 @@ static uint8_t ledPin[MAX_LEDS] = {
     1<<2,
     1<<3,
 };
+
 #elif defined __AVR_ATmega8__
 /**
  * @brief LED GPIO ports
@@ -87,7 +88,7 @@ static uint8_t ledPin[MAX_LEDS] = {
  */
 void LED_HAL_Init(uint8_t led) {
 
-    *ledDir[led] |= ledPin[led]; // set pin as output
+    *ledDir[led] |= ledPin[led];   // set pin as output
     *ledPort[led] &= ~ledPin[led]; // reset pin
 
 }
